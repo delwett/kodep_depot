@@ -12,4 +12,6 @@
 //
 //= require rails-ujs
 //= require turbolinks
+//= require jquery
+//= require jquery-ui/effects/effect-blind
 //= require_tree .
