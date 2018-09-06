@@ -1,0 +1,1 @@
+json.test1 @product.to_json(include: :orders)

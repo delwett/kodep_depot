@@ -20,6 +20,7 @@ class OrdersController < ApplicationController
       redirect_to store_url, notice: "Your cart is empty"
       return
     end
+
     @order = Order.new
   end
 
@@ -72,6 +73,14 @@ class OrdersController < ApplicationController
     respond_to do |format|
       format.html { redirect_to orders_url, notice: 'Order was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  # POST /orders/hide_checkout_button
+  def hide_checkout_button
+    respond_to do |format|
+      format.html { redirect_to new_order_path, method: :get}
+      format.js
     end
   end
 
