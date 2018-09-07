@@ -3,7 +3,6 @@ Rails.application.routes.draw do
   resources :line_items
   resources :carts
   get 'store/index'
-  post 'orders/hide_checkout_button', to: 'orders#hide_checkout_button', as: 'hide_checkout_button'
 
   resources :products do
     get :who_bought, on: :member

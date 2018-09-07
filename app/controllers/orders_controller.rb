@@ -20,12 +20,16 @@ class OrdersController < ApplicationController
       redirect_to store_url, notice: "Your cart is empty"
       return
     end
-
+    @disable_checkout = true
     @order = Order.new
   end
 
   # GET /orders/1/edit
   def edit
+  end
+
+  # GET /orders/1/accept
+  def accept
   end
 
   # POST /orders
@@ -73,14 +77,6 @@ class OrdersController < ApplicationController
     respond_to do |format|
       format.html { redirect_to orders_url, notice: 'Order was successfully destroyed.' }
       format.json { head :no_content }
-    end
-  end
-
-  # POST /orders/hide_checkout_button
-  def hide_checkout_button
-    respond_to do |format|
-      format.html { redirect_to new_order_path, method: :get}
-      format.js
     end
   end
 
