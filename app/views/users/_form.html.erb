@@ -19,6 +19,12 @@
     <%= form.label :name %>
     <%= form.text_field :name, size: 40, id: :user_name %>
   </div>
+    <% if @show_old_password %>
+    <div class="field">
+      <%= form.label :old_password %>
+      <%= form.password_field :old_password, size: 40, id: :user_password %>
+    </div>
+    <% end %>
 
   <div class="field">
     <%= form.label :password %>
@@ -31,7 +37,7 @@
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit%>
   </div>
   </fieldset>
 <% end %>

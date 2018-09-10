@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
-
+  include ActionView::Helpers::UrlHelper
+  before_action :set_user, only: [:show, :update, :edit, :destroy]
   # GET /users
   # GET /users.json
   def index
@@ -19,13 +19,13 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
+    @show_old_password = true
   end
 
   # POST /users
   # POST /users.json
   def create
     @user = User.new(user_params)
-
     respond_to do |format|
       if @user.save
         format.html { redirect_to users_url, notice: "User #{@user.name} was successfully created." }
@@ -41,8 +41,9 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1.json
   def update
     respond_to do |format|
+
       if @user.update(user_params)
-        format.html { redirect_to users_url, notice: "User #{@user.name} was successfully updated." }
+        format.html { redirect_to users_url, notice: @change_msg}
         format.json { render :show, status: :ok, location: @user }
       else
         format.html { render :edit }
@@ -75,6 +76,21 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:name, :password, :password_confirmation)
+      @user_params = params.require(:user).permit(:name, :password, :password_confirmation)
+      if !@show_old_password
+        @user_params
+        else if !params[:user][:old_password].empty?
+        if @user.authenticate(params[:user][:old_password])
+          @change_msg = "User name #{@user.name} and password was successfully updated."
+          @user_params
+        else
+          @change_msg = "User name #{@user.name} was successfully updated."
+          @user_params = @user_params.reject {|k,v| k != 'name'}
+        end
+      else
+        @change_msg = "User name #{@user.name} was successfully updated."
+        @user_params = @user_params.reject {|k,v| k != 'name'}
+      end
+      end
     end
 end
